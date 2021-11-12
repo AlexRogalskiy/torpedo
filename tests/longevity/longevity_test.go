@@ -85,6 +85,7 @@ var _ = Describe("{Longevity}", func() {
 		BackupRestartNode:               TriggerBackupRestartNode,
 		BackupDeleteBackupPod:           TriggerBackupDeleteBackupPod,
 		BackupScaleMongo:                TriggerBackupScaleMongo,
+		CloudSnapShot:                   TriggerCloudSnapShost,
 	}
 	It("has to schedule app and introduce test triggers", func() {
 		Step(fmt.Sprintf("Start watch on K8S configMap [%s/%s]",
@@ -336,6 +337,7 @@ func populateIntervals() {
 	triggerInterval[BackupRestartNode] = map[int]time.Duration{}
 	triggerInterval[BackupDeleteBackupPod] = map[int]time.Duration{}
 	triggerInterval[BackupScaleMongo] = map[int]time.Duration{}
+	triggerInterval[CloudSnapShot] = make(map[int]time.Duration)
 
 	baseInterval := 10 * time.Minute
 	triggerInterval[BackupScaleMongo][10] = 1 * baseInterval
@@ -458,6 +460,7 @@ func populateIntervals() {
 	triggerInterval[BackupRestartNode][5] = 6 * baseInterval
 
 	baseInterval = 60 * time.Minute
+
 	triggerInterval[RebootNode][10] = 1 * baseInterval
 	triggerInterval[RebootNode][9] = 3 * baseInterval
 	triggerInterval[RebootNode][8] = 6 * baseInterval
@@ -543,6 +546,18 @@ func populateIntervals() {
 	triggerInterval[BackupDeleteBackupPod][5] = 6 * baseInterval // Default global chaos level, 1 hr
 
 	baseInterval = 6 * time.Hour
+	triggerInterval[CloudSnapShot][10] = 1 * baseInterval
+	triggerInterval[CloudSnapShot][9] = 3 * baseInterval
+	triggerInterval[CloudSnapShot][8] = 6 * baseInterval
+	triggerInterval[CloudSnapShot][7] = 9 * baseInterval
+	triggerInterval[CloudSnapShot][6] = 12 * baseInterval
+	triggerInterval[CloudSnapShot][5] = 15 * baseInterval // Default global chaos level, 3 hrs
+	triggerInterval[CloudSnapShot][4] = 18 * baseInterval
+	triggerInterval[CloudSnapShot][3] = 21 * baseInterval
+	triggerInterval[CloudSnapShot][2] = 24 * baseInterval
+	triggerInterval[CloudSnapShot][1] = 27 * baseInterval
+
+	baseInterval = 15 * time.Minute
 	triggerInterval[EmailReporter][10] = 1 * baseInterval
 	triggerInterval[EmailReporter][9] = 2 * baseInterval
 	triggerInterval[EmailReporter][8] = 3 * baseInterval
@@ -599,6 +614,7 @@ func populateIntervals() {
 	triggerInterval[BackupRestartNode][0] = 0
 	triggerInterval[BackupDeleteBackupPod][0] = 0
 	triggerInterval[BackupScaleMongo][0] = 0
+	triggerInterval[CloudSnapShot][0] = 0
 }
 
 func isTriggerEnabled(triggerType string) (time.Duration, bool) {
