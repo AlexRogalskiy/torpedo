@@ -40,6 +40,7 @@ import (
 	"github.com/portworx/torpedo/drivers"
 	"github.com/portworx/torpedo/drivers/backup"
 	"github.com/portworx/torpedo/pkg/osutils"
+
 	// import aks driver to invoke it's init
 	_ "github.com/portworx/torpedo/drivers/node/aks"
 	// import backup driver to invoke it's init
@@ -77,6 +78,7 @@ import (
 	"github.com/portworx/torpedo/pkg/log"
 
 	context1 "context"
+
 	"github.com/pborman/uuid"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -614,7 +616,7 @@ func ValidateVolumeStatsticsDynamicUpdate(ctx *scheduler.Context, errChan ...*ch
 }
 
 func fbVolumeExpectedSizechange(sizeChangeInBytes uint64) error {
-	if sizeChangeInBytes < (512 - 30) *oneMegabytes || sizeChangeInBytes > (512  + 30)*oneMegabytes {
+	if sizeChangeInBytes < (512-30)*oneMegabytes || sizeChangeInBytes > (512+30)*oneMegabytes {
 		return errUnexpectedSizeChangeAfterFBIO
 	}
 	return nil
@@ -1035,7 +1037,7 @@ func ValidateClusterSize(count int64) {
 	} else {
 		expectedStorageNodesPerZone = int(perZoneCount)
 	}
-	storageNodes, err := getStorageNodes()
+	storageNodes, err := GetStorageNodes()
 
 	expect(err).NotTo(haveOccurred())
 	expect(len(storageNodes)).Should(equal(expectedStorageNodesPerZone*len(zones)),
@@ -1046,7 +1048,7 @@ func ValidateClusterSize(count int64) {
 	logrus.Infof("Validated successfully that [%d] storage nodes are present", len(storageNodes))
 }
 
-func getStorageNodes() ([]node.Node, error) {
+func GetStorageNodes() ([]node.Node, error) {
 
 	storageNodes := []node.Node{}
 	nodes := node.GetStorageDriverNodes()
