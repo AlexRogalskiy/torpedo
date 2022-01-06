@@ -1048,6 +1048,7 @@ func ValidateClusterSize(count int64) {
 	logrus.Infof("Validated successfully that [%d] storage nodes are present", len(storageNodes))
 }
 
+//GetStorageNodes get storage nodes in the cluster
 func GetStorageNodes() ([]node.Node, error) {
 
 	storageNodes := []node.Node{}
@@ -2461,7 +2462,8 @@ func TearDownBackupRestoreAll() {
 			Uid:  BackupLocationUID,
 		},
 	}
-	ctx, err := backup.GetPxCentralAdminCtx()
+	//ctx, err := backup.GetPxCentralAdminCtx()
+	ctx, err := backup.GetAdminCtxFromSecret()
 	expect(err).NotTo(haveOccurred())
 	enumBkpScheduleResponse, _ := Inst().Backup.EnumerateBackupSchedule(ctx, bkpScheduleEnumerateReq)
 	bkpSchedules := enumBkpScheduleResponse.GetBackupSchedules()
